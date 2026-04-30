@@ -117,9 +117,21 @@ body {
     border-radius: 4px;
 }
 
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 .progress-text {
     font-size: 14px;
     color: var(--text-secondary);
+}
+
+.score-text {
+    font-weight: 600;
+    color: var(--accent);
 }
 
 .question-text {

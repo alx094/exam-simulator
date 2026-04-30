@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentQNumEl = document.getElementById('current-q-num');
     const totalQNumEl = document.getElementById('total-q-num');
     const progressBar = document.getElementById('progress-bar');
+    const currentScoreEl = document.getElementById('current-score');
     const quizContainer = document.getElementById('quiz-container');
     const resultsContainer = document.getElementById('results-container');
     const scorePercentageEl = document.getElementById('score-percentage');
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             totalQNumEl.textContent = questions.length;
             totalQuestionsEl.textContent = questions.length;
+            currentScoreEl.textContent = '0';
             loadQuestion();
         } catch (error) {
             showError('Error processing JSON: Verify that the format is correct.');
@@ -137,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
             optionElement.classList.add('wrong');
             showFeedback(false, `Incorrect. The correct answer is ${correctLetter}.`);
         }
+
+        const answeredQuestions = currentQuestionIndex + 1;
+        const currentScore = Math.round((correctAnswersCount / answeredQuestions) * 100);
+        currentScoreEl.textContent = currentScore;
 
         nextBtn.classList.remove('hidden');
     }
@@ -212,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     restartBtn.addEventListener('click', () => {
         currentQuestionIndex = 0;
         correctAnswersCount = 0;
+        currentScoreEl.textContent = '0';
         resultsContainer.classList.add('hidden');
         progressWrapper.classList.add('hidden');
         setupContainer.classList.remove('hidden');
