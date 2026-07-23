@@ -15,7 +15,8 @@ This project is hosted on GitHub Pages! You can use the application directly fro
 - **Instant Feedback**: Get immediate visual feedback on whether your answers are correct or incorrect.
 - **Progress Tracking**: See your progression via an interactive progress bar.
 - **Final Results Screen**: View your final score, percentage, and an interactive animation indicating if you passed or failed.
-- **Client-Side Only**: 100% HTML, CSS, and vanilla JavaScript. No backend server is required!
+- **Client-Side Only**: 100% HTML, CSS, and TypeScript. No backend server is required!
+- **Shuffled Options**: Answer options are randomized per question, so the correct one is never stuck in the same position.
 
 ## 🛠️ How to Use It
 
@@ -26,27 +27,41 @@ This project is hosted on GitHub Pages! You can use the application directly fro
 
 ## 💻 Local Development
 
-If you want to run this simulator locally or make your own UI modifications:
+This project is built with **TypeScript** and **Vite**.
 
 1. Clone this repository:
    ```bash
    git clone https://github.com/alx094/exam-simulator.git
-   ```
-2. Open the directory:
-   ```bash
    cd exam-simulator
    ```
-3. Open `index.html` directly in your web browser:
+2. Install dependencies:
    ```bash
-   open index.html
+   npm install
+   ```
+3. Start the dev server (hot reload):
+   ```bash
+   npm run dev
+   ```
+4. Build for production (type-checks with `tsc`, then bundles into `dist/`):
+   ```bash
+   npm run build
    ```
 
-## 📜 Optional: Python Parsing Script
+## 🚀 Deployment
 
-If you prefer to extract questions from a PDF locally without an LLM, a Python script (`parse_questions.py`) is included as an example.
+Pushing to `main` triggers a GitHub Actions workflow (`.github/workflows/deploy.yml`)
+that builds the site and publishes `dist/` to GitHub Pages.
 
-1. Install requirements:
-   ```bash
-   pip install pdfminer.six
-   ```
-2. Adapt the script to extract the text and output it as a JSON array compatible with the app's structure.
+> **One-time setup:** in the repo settings, set **Settings → Pages → Build and
+> deployment → Source** to **GitHub Actions**.
+
+## 📜 Optional: Local Parsing Script
+
+If you already have the exam text extracted (e.g. from a PDF), a TypeScript
+helper is included to turn it into the JSON array the app expects:
+
+```bash
+npm run parse -- extracted_text.txt questions.json
+```
+
+Adapt `scripts/parse-questions.ts` to match your document's layout.
