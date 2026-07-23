@@ -46,7 +46,8 @@ The JSON must have the following exact structure:
       "C": "Option C text",
       "D": "Option D text"
     },
-    "answer": "Correct answer letter (e.g., A, B, C, D)"
+    "answer": "Correct answer letter (e.g., A, B, C, D)",
+    "explanation": "Short explanation of why the correct answer is right (optional)"
   }
 ]</code></pre>
                 </div>
@@ -65,7 +66,10 @@ The JSON must have the following exact structure:
             
             <div id="feedback-container" class="feedback-container hidden">
                 <div id="feedback-icon" class="feedback-icon"></div>
-                <p id="feedback-text" class="feedback-text"></p>
+                <div class="feedback-body">
+                    <p id="feedback-text" class="feedback-text"></p>
+                    <p id="feedback-explanation" class="feedback-explanation hidden"></p>
+                </div>
             </div>
             
             <button id="next-btn" class="btn btn-primary hidden">Next Question</button>

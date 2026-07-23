@@ -203,9 +203,15 @@ body {
     border-radius: 12px;
     margin-bottom: 24px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
     animation: fadeIn 0.3s ease;
+}
+
+.feedback-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .feedback-container.correct {
@@ -225,6 +231,13 @@ body {
 .feedback-text {
     font-size: 16px;
     font-weight: 500;
+}
+
+.feedback-explanation {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.85;
 }
 
 .btn {

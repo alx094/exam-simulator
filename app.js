@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackContainer = document.getElementById('feedback-container');
     const feedbackIcon = document.getElementById('feedback-icon');
     const feedbackText = document.getElementById('feedback-text');
+    const feedbackExplanation = document.getElementById('feedback-explanation');
     const nextBtn = document.getElementById('next-btn');
     const currentQNumEl = document.getElementById('current-q-num');
     const totalQNumEl = document.getElementById('total-q-num');
@@ -134,10 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isCorrect) {
             optionElement.classList.add('correct');
             correctAnswersCount++;
-            showFeedback(true, 'Correct!');
+            showFeedback(true, 'Correct!', question.explanation);
         } else {
             optionElement.classList.add('wrong');
-            showFeedback(false, `Incorrect. The correct answer is ${correctLetter}.`);
+            showFeedback(false, `Incorrect. The correct answer is ${correctLetter}.`, question.explanation);
         }
 
         const answeredQuestions = currentQuestionIndex + 1;
@@ -147,10 +148,19 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.classList.remove('hidden');
     }
 
-    function showFeedback(isCorrect, message) {
+    function showFeedback(isCorrect, message, explanation) {
         feedbackContainer.className = `feedback-container ${isCorrect ? 'correct' : 'wrong'}`;
         feedbackIcon.textContent = isCorrect ? '✅' : '❌';
         feedbackText.textContent = message;
+
+        if (explanation && explanation.trim()) {
+            feedbackExplanation.textContent = explanation.trim();
+            feedbackExplanation.classList.remove('hidden');
+        } else {
+            feedbackExplanation.textContent = '';
+            feedbackExplanation.classList.add('hidden');
+        }
+
         feedbackContainer.classList.remove('hidden');
     }
 
