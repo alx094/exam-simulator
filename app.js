@@ -98,18 +98,38 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render question
         questionText.textContent = question.question;
 
+        // Shuffle options once per question so the correct answer isn't always
+        // in the same position (LLMs tend to place it at B).
+        if (!question.shuffledOptions) {
+            const entries = Object.entries(question.options);
+            // Fisher-Yates shuffle
+            for (let i = entries.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [entries[i], entries[j]] = [entries[j], entries[i]];
+            }
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+            const originalCorrect = String(question.answer).trim();
+            question.shuffledOptions = entries.map(([origLetter, text], idx) => ({
+                letter: labels[idx],
+                text,
+                isCorrect: origLetter === originalCorrect
+            }));
+            const correct = question.shuffledOptions.find(o => o.isCorrect);
+            question.correctLetter = correct ? correct.letter : originalCorrect;
+        }
+
         // Render options
-        for (const [letter, text] of Object.entries(question.options)) {
+        for (const opt of question.shuffledOptions) {
             const optionEl = document.createElement('div');
             optionEl.className = 'option';
-            optionEl.dataset.letter = letter;
-            
+            optionEl.dataset.letter = opt.letter;
+
             optionEl.innerHTML = `
-                <span class="letter">${letter}.</span>
-                <span class="text">${text}</span>
+                <span class="letter">${opt.letter}.</span>
+                <span class="text">${opt.text}</span>
             `;
-            
-            optionEl.addEventListener('click', () => handleOptionClick(letter, optionEl));
+
+            optionEl.addEventListener('click', () => handleOptionClick(opt.letter, optionEl));
             optionsContainer.appendChild(optionEl);
         }
     }
@@ -120,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         optionsContainer.classList.add('answered');
 
         const question = questions[currentQuestionIndex];
-        const correctLetter = question.answer.trim();
+        const correctLetter = question.correctLetter;
         const isCorrect = selectedLetter === correctLetter;
 
         // Disable all options
